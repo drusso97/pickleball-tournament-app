@@ -1,1 +1,3 @@
-export default ScheduleGenerator;
+export default class ScheduleGenerator{
+
+}

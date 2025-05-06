@@ -6,34 +6,34 @@ import PlayerList from "@/components/PlayerList";
 import Schedule from '@/components/Schedule';
 import StandingsTable from '@/components/StandingsTable';
 import { loadFromStorage, saveToStorage, clearStorage } from '@/utils/localStorage';
-import { Player, Match, Round, Standings } from '@/types';
+import { Player, Match, Round, Standings } from '@types';
 
 export default function HomePage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [schedule, setSchedule] = useState<Round[]>([]);
   const [standings, setStandings] = useState<Standings>({});
 
-  useEffect(() => {
-    const savedPlayers = loadFromStorage<Player[]>('players') || [];
-    const savedSchedule = loadFromStorage<Round[]>('schedule') || [];
-    const savedStandings = loadFromStorage<Standings>('standings') || {};
-
-    setPlayers(savedPlayers);
-    setSchedule(savedSchedule);
-    setStandings(savedStandings);
-  }, []);
-
-  useEffect(() => {
-    saveToStorage('players', players);
-    saveToStorage('schedule', schedule);
-    saveToStorage('standings', standings);
-  }, [players, schedule, standings]);
+  // useEffect(() => {
+  //   const savedPlayers = loadFromStorage<Player[]>('players') || [];
+  //   const savedSchedule = loadFromStorage<Round[]>('schedule') || [];
+  //   const savedStandings = loadFromStorage<Standings>('standings') || {};
+  //
+  //   setPlayers(savedPlayers);
+  //   setSchedule(savedSchedule);
+  //   setStandings(savedStandings);
+  // }, []);
+  //
+  // useEffect(() => {
+  //   saveToStorage('players', players);
+  //   saveToStorage('schedule', schedule);
+  //   saveToStorage('standings', standings);
+  // }, [players, schedule, standings]);
 
   const resetTournament = () => {
     setPlayers([]);
     setSchedule([]);
     setStandings({});
-    clearStorage();
+    // clearStorage();
   };
 
   return (

@@ -1,1 +1,3 @@
-export default Schedule;
+export default class Schedule{
+
+}

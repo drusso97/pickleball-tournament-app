@@ -1,1 +1,3 @@
-export default StandingsTable;
+export default class StandingsTable {
+
+}
