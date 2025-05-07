@@ -11,7 +11,9 @@ export type Round = {
 };
 
 export type Standings = {
-    playerId: string;
-    wins: number;
-    losses: number;
+    [playerId: string]: {
+        name: string;
+        wins: number;
+        losses: number;
+    };
 };
