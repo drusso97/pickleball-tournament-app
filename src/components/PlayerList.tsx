@@ -1,20 +1,28 @@
-"use client";
+import { Player } from '@/types';
 
-import React from "react";
+type PlayerListProps = {
+    players: Player[];
+    setPlayers: React.Dispatch<React.SetStateAction<Player[]>>;
+};
 
-interface PlayerListProps {
-    players: string[];
-}
+export default function PlayerList({ players, setPlayers }: PlayerListProps) {
+    const removePlayer = (id: string) => {
+        setPlayers(players.filter(player => player.id !== id));
+    };
 
-const PlayerList: React.FC<PlayerListProps> = ({ players }) => {
     return (
-        <ul>
-            {players.map((player, index) => (
-                <li key={index}>{player}</li>
+        <ul className="mb-4">
+            {players.map(player => (
+                <li key={player.id} className="flex justify-between mb-2">
+                    <span>{player.name}</span> {/* ✅ render name here */}
+                    <button
+                        onClick={() => removePlayer(player.id)}
+                        className="text-red-600"
+                    >
+                        Remove
+                    </button>
+                </li>
             ))}
         </ul>
     );
-};
-
-
-export default PlayerList;
+}

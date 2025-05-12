@@ -1,5 +1,7 @@
-export class Player {
-}
+export type Player = {
+    id: string;
+    name: string;
+};
 
 export type Match = {
     id: string;
