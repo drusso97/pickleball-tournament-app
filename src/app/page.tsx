@@ -5,38 +5,41 @@ import PlayerForm from '@/components/PlayerForm';
 import PlayerList from "@/components/PlayerList";
 import Schedule from '@/components/Schedule';
 import StandingsTable from '@/components/StandingsTable';
-import { loadFromStorage, saveToStorage, clearStorage } from '@/utils/localStorage';
-import { Player, Match, Round, Standings } from '@types';
+import ScheduleGenerator from '@/components/ScheduleGenerator'; // Import your logic class
+import { Player, Round, Standings } from '@types';
 
 export default function HomePage() {
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [schedule, setSchedule] = useState<Round[]>([]);
-  const [standings, setStandings] = useState<Standings>({});
-  const [numRounds, setNumRounds] = useState(1);
+    const [players, setPlayers] = useState<Player[]>([]);
+    const [schedule, setSchedule] = useState<Round[]>([]);
+    const [standings, setStandings] = useState<Standings>({});
+    const [numRounds, setNumRounds] = useState(1);
 
+    const resetTournament = () => {
+        setPlayers([]);
+        setSchedule([]);
+        setStandings({});
+        // clearStorage();
+    };
 
-    // useEffect(() => {
-  //   const savedPlayers = loadFromStorage<Player[]>('players') || [];
-  //   const savedSchedule = loadFromStorage<Round[]>('schedule') || [];
-  //   const savedStandings = loadFromStorage<Standings>('standings') || {};
-  //
-  //   setPlayers(savedPlayers);
-  //   setSchedule(savedSchedule);
-  //   setStandings(savedStandings);
-  // }, []);
-  //
-  // useEffect(() => {
-  //   saveToStorage('players', players);
-  //   saveToStorage('schedule', schedule);
-  //   saveToStorage('standings', standings);
-  // }, [players, schedule, standings]);
+    const generateSchedule = () => {
+        try {
+            if (players.length % 4 !== 0) {
+                alert("Number of players must be a multiple of 4 for balanced doubles.");
+                return;
+            }
+            if (numRounds < 1) {
+                alert("Please enter a valid number of rounds.");
+                return;
+            }
 
-  const resetTournament = () => {
-    setPlayers([]);
-    setSchedule([]);
-    setStandings({});
-    // clearStorage();
-  };
+            const newSchedule = ScheduleGenerator.generateSchedule(players, numRounds);
+            setSchedule(newSchedule);
+            // Optionally reset standings here or keep them
+            setStandings({});
+        } catch (error: any) {
+            alert(error.message);
+        }
+    };
 
     return (
         <main className="p-6 max-w-4xl mx-auto">
@@ -57,7 +60,7 @@ export default function HomePage() {
                     />
                 </label>
                 <button
-                    onClick={() => console.log('Generate schedule clicked with', numRounds, 'rounds')}
+                    onClick={generateSchedule}
                     className="bg-green-600 text-white px-4 py-2 rounded"
                 >
                     Generate Schedule
