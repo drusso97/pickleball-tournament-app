@@ -6,7 +6,7 @@ import PlayerList from "@/components/PlayerList";
 import Schedule from '@/components/Schedule';
 import StandingsTable from '@/components/StandingsTable';
 import ScheduleGenerator from '@/components/ScheduleGenerator'; // Import your logic class
-import { Player, Round, Standings } from '@types';
+import { Player, Round, Standings } from '@/types';
 
 export default function HomePage() {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -33,13 +33,14 @@ export default function HomePage() {
             }
 
             const newSchedule = ScheduleGenerator.generateSchedule(players, numRounds);
+            console.log("Generated Schedule:", newSchedule); // LOG IT
             setSchedule(newSchedule);
-            // Optionally reset standings here or keep them
             setStandings({});
         } catch (error: any) {
             alert(error.message);
         }
     };
+
 
     return (
         <main className="p-6 max-w-4xl mx-auto">

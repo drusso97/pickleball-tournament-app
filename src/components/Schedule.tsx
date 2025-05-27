@@ -1,26 +1,20 @@
-// src/components/Schedule.tsx
-import React from 'react';
-import { Player, Round, Standings } from '@/types';
+import {Round} from "@/types";
 
-type ScheduleProps = {
-    players: Player[];
-    schedule: Round[];
-    setSchedule: React.Dispatch<React.SetStateAction<Round[]>>;
-    standings: Standings;
-    setStandings: React.Dispatch<React.SetStateAction<Standings>>;
-};
+export default function Schedule({ schedule }: { schedule: Round[] }) {
+    if (!schedule.length) return <p>No schedule generated yet.</p>;
 
-export default function Schedule({
-                                     players,
-                                     schedule,
-                                     setSchedule,
-                                     standings,
-                                     setStandings,
-                                 }: ScheduleProps) {
     return (
         <div>
-            {/* Your schedule rendering logic here */}
-            <h2 className="text-xl font-semibold mb-2">Tournament Schedule</h2>
+            {schedule.map((round) => (
+                <div key={round.round} className="mb-4">
+                    <h3 className="font-bold">Round {round.round}</h3>
+                    {round.matches.map((match, idx) => (
+                        <p key={idx}>
+                            {match.team1.join(" & ")} vs {match.team2.join(" & ")}
+                        </p>
+                    ))}
+                </div>
+            ))}
         </div>
     );
 }

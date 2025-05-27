@@ -1,6 +1,6 @@
 // ScheduleGenerator.ts
 
-import { Player, Match, Round } from '@types';
+import { Player, Match, Round } from '@/types';
 
 export default class ScheduleGenerator {
     static shuffleArray<T>(array: T[]): T[] {
