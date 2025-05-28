@@ -4,11 +4,13 @@ export type Player = {
 };
 
 export type Match = {
-    id: string;
-    players: Player[];
+    team1: Player[];
+    team2: Player[];
+    score: null | string;
 };
 
 export type Round = {
+    round: number;
     matches: Match[];
 };
 

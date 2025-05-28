@@ -13,7 +13,7 @@ export default function PlayerForm({ players, setPlayers }: PlayerFormProps) {
         e.preventDefault();
         if (name.trim()) {
             const newPlayer: Player = {
-                id: crypto.randomUUID(), // or Date.now().toString()
+                id: Date.now().toString(), // fallback unique ID
                 name,
             };
             setPlayers([...players, newPlayer]);

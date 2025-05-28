@@ -31,7 +31,7 @@ export default class ScheduleGenerator {
 
             while (availablePlayers.length >= 4) {
                 let [p1, p2, p3, p4] = availablePlayers.splice(0, 4);
-                let matchKey = `${p1}-${p2} vs ${p3}-${p4}`;
+                let matchKey = `${p1.id}-${p2.id} vs ${p3.id}-${p4.id}`;
                 if (usedPairs.has(matchKey)) continue;
 
                 let team1 = [p1, p2];
