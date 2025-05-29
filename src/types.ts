@@ -16,6 +16,9 @@ export type Round = {
 
 export type Standings = {
     [playerId: string]: {
+        pointDifferential: number;
+        pointsAllowed: number;
+        pointsScored: number;
         name: string;
         wins: number;
         losses: number;

@@ -16,6 +16,9 @@ export default function StandingsTable({ standings }: StandingsTableProps) {
                     <th className="border px-4 py-2 text-left">Player</th>
                     <th className="border px-4 py-2 text-left">Wins</th>
                     <th className="border px-4 py-2 text-left">Losses</th>
+                    <th className="border px-4 py-2 text-left">PF</th>
+                    <th className="border px-4 py-2 text-left">PA</th>
+                    <th className="border px-4 py-2 text-left">PD</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,6 +27,9 @@ export default function StandingsTable({ standings }: StandingsTableProps) {
                         <td className="border px-4 py-2">{record.name}</td>
                         <td className="border px-4 py-2">{record.wins}</td>
                         <td className="border px-4 py-2">{record.losses}</td>
+                        <td className="border px-4 py-2">{record.pointsScored}</td>
+                        <td className="border px-4 py-2">{record.pointsAllowed}</td>
+                        <td className="border px-4 py-2">{record.pointDifferential}</td>
                     </tr>
                 ))}
                 </tbody>
