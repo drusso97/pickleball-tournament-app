@@ -6,7 +6,10 @@ export type Player = {
 export type Match = {
     team1: Player[];
     team2: Player[];
-    score: null | string;
+    score: null | {
+        team1: number;
+        team2: number;
+    };
 };
 
 export type Round = {
@@ -16,11 +19,11 @@ export type Round = {
 
 export type Standings = {
     [playerId: string]: {
-        pointDifferential: number;
-        pointsAllowed: number;
-        pointsScored: number;
         name: string;
         wins: number;
         losses: number;
+        pointsScored: number;
+        pointsAllowed: number;
+        pointDifferential: number;
     };
 };
