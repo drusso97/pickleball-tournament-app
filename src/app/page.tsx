@@ -7,6 +7,7 @@ import Schedule from '@/components/Schedule';
 import StandingsTable from '@/components/StandingsTable';
 import ScheduleGenerator from '@/components/ScheduleGenerator'; // Import your logic class
 import { Player, Round, Standings } from '@/types';
+import { calculateStandings } from '@/utils/standings';
 
 export default function HomePage() {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -74,6 +75,7 @@ export default function HomePage() {
                 setSchedule={setSchedule}
                 standings={standings}
                 setStandings={setStandings}
+                calculateStandings={calculateStandings}
             />
 
             <StandingsTable standings={standings} />
