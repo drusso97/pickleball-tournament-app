@@ -1,4 +1,4 @@
-import {Round, Match, Player, Standings} from "@/types";
+import { Round, Match, Player, Standings } from "@/types";
 
 type ScheduleProps = {
     schedule: Round[],
@@ -6,7 +6,8 @@ type ScheduleProps = {
     setStandings: (standings: any) => void,
     calculateStandings: (schedule: Round[]) => any,
     players?: Player[],
-    standings?: Standings
+    standings?: Standings,
+    numRegularRounds: number
 };
 
 export default function Schedule({
@@ -15,21 +16,38 @@ export default function Schedule({
                                      setStandings,
                                      calculateStandings,
                                      players,
-                                     standings
+                                     standings,
+                                     numRegularRounds
                                  }: ScheduleProps) {
-    const handleScoreChange = (roundIndex: number, matchIndex: number, team: "team1" | "team2", value: string) => {
+    const handleScoreChange = (
+        roundIndex: number,
+        matchIndex: number,
+        team: "team1" | "team2",
+        value: string
+    ) => {
         const updatedSchedule = [...schedule];
         const match = updatedSchedule[roundIndex].matches[matchIndex];
 
         const scoreValue = parseInt(value);
         if (isNaN(scoreValue)) return;
 
-        if (!match.score) match.score = {team1: 0, team2: 0};
+        if (!match.score) match.score = { team1: 0, team2: 0 };
         match.score[team] = scoreValue;
 
         setSchedule(updatedSchedule);
         const updatedStandings = calculateStandings(updatedSchedule);
         setStandings(updatedStandings);
+    };
+
+    const getRoundLabel = (roundNumber: number) => {
+        if (roundNumber <= numRegularRounds) return `Round ${roundNumber}`;
+        const playoffIndex = roundNumber - numRegularRounds;
+        switch (playoffIndex) {
+            case 1: return "Semifinals";
+            case 2: return "Final";
+            case 3: return "Third Place Game";
+            default: return `Playoff Round ${playoffIndex}`;
+        }
     };
 
     if (!schedule.length) return <p>No schedule generated yet.</p>;
@@ -38,7 +56,7 @@ export default function Schedule({
         <div>
             {schedule.map((round, rIdx) => (
                 <div key={rIdx} className="mb-4">
-                    <h2 className="text-xl font-bold">Round {round.round}</h2>
+                    <h2 className="text-xl font-bold">{getRoundLabel(round.round)}</h2>
                     {round.matches.map((match, mIdx) => (
                         <div key={mIdx} className="flex items-center gap-4 mb-2">
                             <div className="flex-1">

@@ -8,18 +8,20 @@ import StandingsTable from '@/components/StandingsTable';
 import ScheduleGenerator from '@/components/ScheduleGenerator'; // Import your logic class
 import { Player, Round, Standings } from '@/types';
 import { calculateStandings } from '@/utils/standings';
+import {generatePlayoffs} from "@/utils/playoffs";
 
 export default function HomePage() {
     const [players, setPlayers] = useState<Player[]>([]);
     const [schedule, setSchedule] = useState<Round[]>([]);
     const [standings, setStandings] = useState<Standings>({});
     const [numRounds, setNumRounds] = useState(1);
+    const [playoffsGenerated, setPlayoffsGenerated] = useState(false);
 
     const resetTournament = () => {
         setPlayers([]);
         setSchedule([]);
         setStandings({});
-        // clearStorage();
+        setPlayoffsGenerated(false);
     };
 
     const generateSchedule = () => {
@@ -42,6 +44,27 @@ export default function HomePage() {
         }
     };
 
+    function allMatchesScored(schedule: Round[]): boolean {
+        return schedule.every(round =>
+            round.matches.every(match => match.score !== null)
+        );
+    }
+
+    useEffect(() => {
+        if (
+            schedule.length &&
+            allMatchesScored(schedule) &&
+            !playoffsGenerated
+        ) {
+            console.log("All matches scored, generating playoffs...");
+            const updatedStandings = calculateStandings(schedule);
+            setStandings(updatedStandings);
+
+            const playoffRounds = generatePlayoffs(updatedStandings, players, schedule.length);
+            setSchedule([...schedule, ...playoffRounds]);
+            setPlayoffsGenerated(true);
+        }
+    }, [schedule, standings, players, playoffsGenerated]);
 
     return (
         <main className="p-6 max-w-4xl mx-auto">
@@ -70,12 +93,13 @@ export default function HomePage() {
             </div>
 
             <Schedule
-                players={players}
                 schedule={schedule}
                 setSchedule={setSchedule}
-                standings={standings}
                 setStandings={setStandings}
                 calculateStandings={calculateStandings}
+                standings={standings}
+                players={players}
+                numRegularRounds={numRounds}
             />
 
             <StandingsTable standings={standings} />
