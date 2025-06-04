@@ -51,20 +51,17 @@ export default function HomePage() {
     }
 
     useEffect(() => {
-        if (
-            schedule.length &&
-            allMatchesScored(schedule) &&
-            !playoffsGenerated
-        ) {
-            console.log("All matches scored, generating playoffs...");
+        if (schedule.length && !playoffsGenerated && allMatchesScored(schedule)) {
             const updatedStandings = calculateStandings(schedule);
             setStandings(updatedStandings);
 
             const playoffRounds = generatePlayoffs(updatedStandings, players, schedule.length);
-            setSchedule([...schedule, ...playoffRounds]);
-            setPlayoffsGenerated(true);
+            if (playoffRounds.length > 0) {
+                setSchedule([...schedule, ...playoffRounds]);
+                setPlayoffsGenerated(true);
+            }
         }
-    }, [schedule, standings, players, playoffsGenerated]);
+    }, [schedule, playoffsGenerated, players, standings]);
 
     return (
         <main className="p-6 max-w-4xl mx-auto">
